@@ -1,0 +1,109 @@
+﻿@model BlogCore.Models.ViewModels.ArticuloVM
+
+@{
+    ViewData["Title"] = "Editar Articulo";
+}
+
+
+<br />
+<br />
+
+<h3 class="text-center">Editar articulo</h3>
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <div class="row row-cols-1 row-cols-md-2 px-2 border mx-auto justify-content-center">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @* <div asp-validation-summary="All" class="text-danger"></div> *@
+
+        @* Se envia el ID del articulo como campo oculto *@
+        <input type="hidden" asp-for="Articulo.Id" />
+
+        <div class="col-md-8 mt-4">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Articulo.Nombre"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Articulo.Nombre" class="form-control" placeholder="Ingresa el Nombre" />
+                    <span asp-validation-for="Articulo.Nombre" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Articulo.Descripcion"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Articulo.Descripcion" class="form-control" style="height: 300px;"></textarea>
+                    <span asp-validation-for="Articulo.Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label for="Categoria">Categoria</label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Articulo.CategoriaId, Model.ListaCategorias,
+                             "-Por favor seleccione una categoria-", new { @class = "form-control form-select" })
+                    <span asp-validation-for="Articulo.CategoriaId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Articulo.UrlImagen"></label>
+                </div>
+                <div class="col-8">
+                    <input type="file" name="archivos" id="subidaArchivo" class="form-control" />
+                    @* Para subir multiples archivos *@
+                    @* <input type="file" name="archivos" multiple class="form-control" /> *@
+                    <span asp-validation-for="Articulo.UrlImagen" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-goup-row">
+                <div class="col-8">
+
+                    <div class="row mb-3 mt-1">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary form-control">Editar Articulo</button>
+                        </div>
+                        &nbsp;
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-success form-control">Volver atras</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-8 col-md-4 mx-auto py-3">
+            <img src="@Model.Articulo.UrlImagen" class="w-100" style="border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.2.0/tinymce.min.js" integrity="sha512-E2dqytT185qVoAL0sfqr39BLHEBQtmZze59ChMjYi4vRUW6BzIBLZAqErdQAAAJX8bkFq2kQgQL9Lbpm8Uuw0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'lists',
+            menubar: 'file edit format'
+        })
+    </script>
+}
