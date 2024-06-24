@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlogCore.AccesoDatos.Data.Repository
 {
-    internal class SliderRepository : Repository<Slider>, ISliderRepository
+    public class SliderRepository : Repository<Slider>, ISliderRepository
     {
         private readonly ApplicationDbContext _db;
 
