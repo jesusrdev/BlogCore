@@ -1,5 +1,6 @@
 ﻿using BlogCore.AccesoDatos.Data.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BlogCore.Areas.Admin.Controllers
 {
@@ -17,8 +18,17 @@ namespace BlogCore.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var usuarios = _contenedorTrabajo.Usuario.GetAll();
-            return View(usuarios);
+            //var usuarios = _contenedorTrabajo.Usuario.GetAll();
+            //return View(usuarios);
+
+
+
+            // Obtener todos los usuarios excepto el que esta logueado par no bloquearse asi mismo
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity; //Obtener la informacion del usuario actual
+
+            var usuarioActual = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            return View(_contenedorTrabajo.Usuario.GetAll(u => u.Id != usuarioActual.Value));
         }
 
 
