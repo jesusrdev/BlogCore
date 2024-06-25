@@ -20,9 +20,10 @@
     <div class="row">
         @foreach (var articulo in Model.ListaArticulos.OrderBy(o => o.Id))
         {
-            <div class="col-4">
-                <div class="card">
-                    <img src="@articulo.UrlImagen" class="img-thumbnail" />
+            <div class="col-4 mt-3">
+                <div class="card h-100">
+                    <img src="@articulo.UrlImagen" class="img-thumbnail" style="aspect-ratio: 4/3;object-fit:cover !important;object-position: center;
+        " />
                     <div class="card-body">
                         <h5 class="text-center">@articulo.Nombre</h5>
                         <a asp-action="Detalle" class="btn btn-success" style="border-radius:10px" asp-route-id="@articulo.Id">
