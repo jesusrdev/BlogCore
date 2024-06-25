@@ -1,5 +1,6 @@
 using BlogCore.AccesoDatos.Data.Repository;
 using BlogCore.AccesoDatos.Data.Repository.IRepository;
+using BlogCore.AccesoDatos.Inicializador;
 using BlogCore.Data;
 using BlogCore.Models;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,10 @@ builder.Services.AddControllersWithViews();
 // Agregar contenedor de trabajo al contenedor IoC de inyeccion de dependencias
 builder.Services.AddScoped<IContenedorTrabajo, ContenedorTrabajo>();
 
+// Siembra de datos - Paso 1
+builder.Services.AddScoped<IInicializadorBD, InicializadorBD>();
+
+
 
 
 var app = builder.Build();
@@ -42,6 +47,11 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+// Metodo que ejecuta la siembra de datos (Seeding)
+SiembraDatos();
+
+
 app.UseRouting();
 
 app.UseAuthentication();
@@ -53,3 +63,16 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+
+
+// Implementando el metodo SiembraDatos()
+void SiembraDatos()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var inicializadorBD = scope.ServiceProvider.GetRequiredService<IInicializadorBD>();
+        inicializadorBD.Inicializar();
+    }
+}
